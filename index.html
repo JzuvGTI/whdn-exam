@@ -1,0 +1,286 @@
+<html>
+<head>
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .sidebar {
+            transition: width 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 64px;
+        }
+        .sidebar.collapsed .sidebar-text {
+            display: none;
+        }
+        .content {
+            transition: margin-left 0.3s;
+        }
+        .content.collapsed {
+            margin-left: 64px;
+        }
+        .sidebar ul li:hover {
+            background-color: #f0f4f8;
+        }
+        .sidebar-label {
+            font-size: 0.75rem; /* Small text size */
+            color: #6b7280; /* Gray color */
+            cursor: default; /* Disable hover and click */
+        }
+        .progress-circle {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: conic-gradient(#3b82f6 var(--progress), #e5e7eb 0);
+        }
+        .progress-circle::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar w-64 bg-white h-screen shadow-md fixed">
+            <div class="p-4 flex items-center justify-between">
+                <i class="fas fa-bars text-gray-500 cursor-pointer" onclick="toggleSidebar()"></i>
+                <span class="text-xl font-bold text-blue-600 sidebar-text">MYEXAMS</span>
+            </div>
+            <div class="p-4">
+                <input type="text" placeholder="Cari ujian..." class="w-full p-2 border rounded sidebar-text">
+            </div>
+            <nav class="mt-4">
+                <ul>
+                    <li class="p-4 sidebar-label">
+                        <span class="sidebar-text">MASTER DATA</span>
+                    </li>
+                    <li class="p-4 bg-blue-50 text-blue-600 flex items-center">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </li>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                        <i class="fas fa-chalkboard-teacher mr-3"></i>
+                        <span class="sidebar-text">Kelas/Jurusan</span>
+                    </li>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                        <i class="fas fa-door-open mr-3"></i>
+                        <span class="sidebar-text">Ruangan</span>
+                    </li>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                        <i class="fas fa-users mr-3"></i>
+                        <span class="sidebar-text">Daftar Peserta</span>
+                    </li>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                        <i class="fas fa-list-alt mr-3"></i>
+                        <span class="sidebar-text">Daftar Ujian</span>
+                    </li>
+                    <li class="p-4 sidebar-label">
+                        <span class="sidebar-text">SISTEM</span>
+                    </li>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100 dropdown relative">
+                        <i class="fas fa-user-cog mr-3"></i>
+                        <span class="sidebar-text">Pengelola Akun</span>
+                    </li>
+                    <ul class="dropdown-content pl-8">
+                        <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                            <i class="fas fa-user mr-3"></i>
+                            <span class="sidebar-text">Pengelola</span>
+                        </li>
+                        <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                            <i class="fas fa-user-shield mr-3"></i>
+                            <span class="sidebar-text">Pengawas</span>
+                        </li>
+                    </ul>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                        <i class="fas fa-tools mr-3"></i>
+                        <span class="sidebar-text">Peralatan</span>
+                    </li>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                        <i class="fas fa-cog mr-3"></i>
+                        <span class="sidebar-text">Pengaturan</span>
+                    </li>
+                    <li class="p-4 text-gray-600 flex items-center hover:bg-gray-100">
+                        <i class="fas fa-sign-out-alt mr-3"></i>
+                        <span class="sidebar-text">Keluar</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Main Content -->
+        <div id="content" class="content flex-1 p-6 ml-64 transition-margin-left duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold">Dashboard</h1>
+                <div class="flex items-center">
+                    <span id="current-time" class="text-gray-500 mr-4">7:30:21 AM</span>
+                    <i class="fas fa-bell text-gray-500 mr-4"></i>
+                    <div class="flex items-center">
+                        <i class="fas fa-user-circle text-gray-500 mr-2"></i>
+                        <span class="text-gray-500">Administrator</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Trafik Monitor -->
+                <div class="col-span-1 md:col-span-2 bg-white p-6 rounded shadow">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold">Trafik Monitor</h2>
+                        <button class="text-gray-500">Reset</button>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div>
+                            <h3 class="text-green-500 text-2xl font-bold">1,135</h3>
+                            <p class="text-gray-500">Trafik Realtime</p>
+                        </div>
+                        <div>
+                            <h3 class="text-green-500 text-2xl font-bold">11,387</h3>
+                            <p class="text-gray-500">Total</p>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500 text-2xl font-bold">24</h3>
+                            <p class="text-gray-500">Peserta</p>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500 text-2xl font-bold">5,433</h3>
+                            <p class="text-gray-500">Pengelola</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Token -->
+                <div class="bg-white p-6 rounded shadow">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="token" class="text-lg font-bold">Q2LW9U</h2>
+                        <div class="progress-circle" style="--progress: 75%;"></div>
+                    </div>
+                    <p class="text-gray-500 mb-4">Masa hidup token <span class="font-bold" id="token-time">2:45</span></p>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="resetToken()">Perbaharui Token!</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
+                <!-- Stats -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-800">860</h3>
+                    <p class="text-gray-500">Total Koneksi Terekam</p>
+                    <p class="text-green-500">2 perangkat terhubung</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-800">59</h3>
+                    <p class="text-gray-500">Total Peserta</p>
+                    <p class="text-green-500">1 peserta terhubung</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-800">3</h3>
+                    <p class="text-gray-500">Total Pengawas</p>
+                    <p class="text-green-500">0 pengawas terhubung</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-800">3</h3>
+                    <p class="text-gray-500">Total Pengelola</p>
+                    <p class="text-green-500">1 pengelola terhubung</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-800">16</h3>
+                    <p class="text-gray-500">Total Kelas</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-800">14</h3>
+                    <p class="text-gray-500">Total Ruangan</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-gray-800">20</h3>
+                    <p class="text-gray-500">Total Ujian</p>
+                    <p class="text-green-500">8 aktif</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('content').classList.toggle('collapsed');
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            sidebar.classList.toggle('w-64');
+            sidebar.classList.toggle('w-16');
+            content.classList.toggle('ml-64');
+            content.classList.toggle('ml-16');
+            if (sidebar.classList.contains('w-16')) {
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    dropdown.classList.add('hidden');
+                });
+            }
+        }
+
+        function toggleDropdown() {
+            const sidebar = document.getElementById('sidebar');
+            if (!sidebar.classList.contains('w-16')) {
+                const dropdown = document.querySelector('.dropdown-content');
+                const arrow = document.getElementById('dropdown-arrow');
+                dropdown.classList.toggle('hidden');
+                if (!dropdown.classList.contains('hidden')) {
+                    arrow.classList.remove('fa-chevron-down');
+                    arrow.classList.add('fa-chevron-up');
+                } else {
+                    arrow.classList.remove('fa-chevron-up');
+                    arrow.classList.add('fa-chevron-down');
+                }
+            }
+        }
+
+        function generateToken() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let token = '';
+            for (let i = 0; i < 6; i++) {
+                token += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return token;
+        }
+
+        function resetToken() {
+            const progressCircle = document.querySelector('.progress-circle');
+            const tokenTime = document.getElementById('token-time');
+            const tokenElement = document.getElementById('token');
+            let timeLeft = 165; // 2 minutes 45 seconds in seconds
+            const newToken = generateToken();
+            tokenElement.textContent = newToken;
+            const interval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    resetToken(); // Generate a new token and reset the timer
+                } else {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    tokenTime.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    const progress = (timeLeft / 165) * 100;
+                    progressCircle.style.setProperty('--progress', `${progress}%`);
+                }
+            }, 1000);
+        }
+
+        function updateTime() {
+            const currentTimeElement = document.getElementById('current-time');
+            setInterval(() => {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds} ${ampm}`;
+                currentTimeElement.textContent = formattedTime;
+            }, 1000);
+        }
+
+        // Initialize the token timer and current time on page load
+        resetToken();
+        updateTime();
+    </script>
+</body>
+</html>
